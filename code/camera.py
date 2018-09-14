@@ -95,7 +95,7 @@ while(True):
                 frame_data = {'timestamp':frameTimestamp,'location_x':int(enc_x),'location_y':int(enc_y),'contour_area':area,'enclosing_radius':radius}
 
                 #save data
-                with open(r'{}hourglass_data.csv'.format(data_directory), 'a', newline='') as csvfile:
+                with open(r'{}hourglass_movement_data.csv'.format(data_directory), 'a', newline='') as csvfile:
                     fieldnames = ['timestamp','location_x','location_y','contour_area','enclosing_radius']
                     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
                     writer.writerow(frame_data)
