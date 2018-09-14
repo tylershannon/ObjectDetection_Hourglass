@@ -6,6 +6,13 @@ import datetime
 import imutils
 import urllib
 import csv
+import argparse
+
+# construct the argument parse and parse the arguments
+ap = argparse.ArgumentParser()
+ap.add_argument("-d", "--debug", default=0, help = "debug file")
+ap.add_argument("-w", "--watch", default=0, help = "Toggle imshow of processing")
+args = vars(ap.parse_args())
 
 #camera frame url
 with open('keyfile.txt', 'r') as keyfile:
@@ -160,11 +167,15 @@ while(True):
     ###############################################
     #show frame with detected objects
     ###############################################
-    cv2.imshow("Step 6: Object Detections", Gaussian)
+    if int(args['watch']) != 0:
+        cv2.imshow("Detections",Gaussian)
+        #setup quit function key
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break        
     #save existing frame as previous frame
     previousFrame = gray
-    #setup quit function key
-    if cv2.waitKey(1) & 0xFF == ord('q'):
-        break
+
+    if int(args['debug']) != 0:
+        print(frameTimestamp)
 
 cv2.destroyAllWindows()
