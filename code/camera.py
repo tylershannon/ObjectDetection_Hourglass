@@ -171,11 +171,12 @@ while(True):
         cv2.imshow("Detections",Gaussian)
         #setup quit function key
         if cv2.waitKey(1) & 0xFF == ord('q'):
-            break        
+            break
     #save existing frame as previous frame
     previousFrame = gray
 
     if int(args['debug']) != 0:
         print(frameTimestamp)
-
+print('--------------------------------- Project Stream Interrupted---------------------------------')
+print('---------------------------------------------------------------------------------------------')
 cv2.destroyAllWindows()
