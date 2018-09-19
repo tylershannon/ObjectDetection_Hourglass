@@ -36,9 +36,10 @@ def url_to_image(url):
 #define HOG detector
 ##########################################
 #set HOG parameters
-winStride = (2,2)
+winStride = (10,10)
 padding = (4,4)
 meanShift = False
+scale = 1.05
 #initialize HOG detector
 hog = cv2.HOGDescriptor()
 hog.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
@@ -59,7 +60,7 @@ while(True):
     #capture frame by frame
     frame = url_to_image(frame_url)
     #resize
-    frame = cv2.resize(frame, (0,0), fx=0.6, fy=0.6)
+    #frame = cv2.resize(frame, (0,0), fx=0.6, fy=0.6)
     #convert to gray
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     #GaussianBlur
@@ -92,6 +93,7 @@ while(True):
                 #continue
                 cv2.drawContours(Gaussian, [c], -1, (0,255,0), 3)
                 cv2.circle(Gaussian, center, int(radius), (255,0,0), 2)
+                cv2.putText(Gaussian, str(center), (int(enc_x), int(enc_y)), cv2.FONT_HERSHEY_SIMPLEX, .5, (255, 255, 255))
                 frame_data = {'timestamp':frameTimestamp,'location_x':int(enc_x),'location_y':int(enc_y),'contour_area':area,'enclosing_radius':radius}
 
                 #save data
@@ -139,7 +141,7 @@ while(True):
     ###############################################
     #HOG Detector
     ###############################################
-    (HOG_rects, HOG_weights) = hog.detectMultiScale(gray, winStride=winStride, padding=padding, scale=1.01, useMeanshiftGrouping=meanShift)
+    (HOG_rects, HOG_weights) = hog.detectMultiScale(gray, winStride=winStride, padding=padding, scale=scale, useMeanshiftGrouping=meanShift)
     #if people are detected,
     #count them and log paratmers
     if len(HOG_rects)>0:
